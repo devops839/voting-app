@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote for Your Favorite Movie Genre</title>
+    <!-- Link to the CSS file located in static/css -->
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Vote for Your Favorite Movie Genre</h1>
+        
+        <!-- Voting Form -->
+        <form action="/vote" method="post">
+            <label>
+                <input type="radio" name="genre" value="Action/Adventure"> Action/Adventure
+            </label><br>
+            <label>
+                <input type="radio" name="genre" value="Rom-Com"> Rom-Com
+            </label><br>
+            <label>
+                <input type="radio" name="genre" value="Horror"> Horror
+            </label><br><br>
+            <button type="submit">Vote</button>
+        </form>
+
+        <!-- Displaying Vote Counts Only After Voting -->
+        <div th:if="${votes != null}">
+            <h2>Current Vote Counts</h2>
+            
+            <!-- Table Description -->
+            <table>
+                <caption>Vote counts for each movie genre after voting is completed.</caption>
+                <thead>
+                    <tr>
+                        <th>Movie Genre</th>
+                        <th>Votes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Action/Adventure</td>
+                        <td th:text="${votes[0].count}"></td>
+                    </tr>
+                    <tr>
+                        <td>Rom-Com</td>
+                        <td th:text="${votes[1].count}"></td>
+                    </tr>
+                    <tr>
+                        <td>Horror</td>
+                        <td th:text="${votes[2].count}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

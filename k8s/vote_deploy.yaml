@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: voting-app-deployment
+  labels:
+    app: voting-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: voting-app
+  template:
+    metadata:
+      labels:
+        app: voting-app
+    spec:
+      imagePullSecrets:
+        - name: acr-secret  
+      containers:
+        - name: voting-app-container
+          image: "${acrName}.azurecr.io/app:${tag}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "500m"
+            limits:
+              memory: "512Mi"
+              cpu: "1"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: voting-app-service
+spec:
+  selector:
+    app: voting-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
